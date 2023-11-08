@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import filedialog
-import os
 
 def get_selected_folders():
     selected_folders = []
@@ -9,6 +8,10 @@ def get_selected_folders():
             selected_folders.append(folder)
     print("Selected Folders:", selected_folders)
     # Pass the selected_folders to your Python function here
+
+def select_all_folders():
+    for var in folder_vars.values():
+        var.set(1)
 
 def browse_directory():
     directory = filedialog.askdirectory()
@@ -46,6 +49,8 @@ select_directory_button = tk.Button(root, text="Browse", command=browse_director
 select_directory_button.pack()
 get_folders_button = tk.Button(root, text="Get Selected Folders", command=get_selected_folders)
 get_folders_button.pack()
+select_all_button = tk.Button(root, text="Select All", command=select_all_folders)
+select_all_button.pack()
 
 selected_directory_label = tk.Label(root, textvariable=selected_directory)
 selected_directory_label.pack()
