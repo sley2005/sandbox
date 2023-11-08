@@ -1,0 +1,54 @@
+import tkinter as tk
+from tkinter import filedialog
+import os
+
+def get_selected_folders():
+    selected_folders = []
+    for folder, var in folder_vars.items():
+        if var.get() == 1:
+            selected_folders.append(folder)
+    print("Selected Folders:", selected_folders)
+    # Pass the selected_folders to your Python function here
+
+def browse_directory():
+    directory = filedialog.askdirectory()
+    if directory:
+        selected_directory.set(directory)
+        list_folders(directory)
+
+def list_folders(directory):
+    for widget in frame.winfo_children():
+        widget.destroy()
+
+    folders = [f for f in os.listdir(directory) if os.path.isdir(os.path.join(directory, f))]
+    for folder in folders:
+        var = tk.IntVar()
+        folder_vars[folder] = var
+        checkbox = tk.Checkbutton(frame, text=folder, variable=var)
+        checkbox.pack()
+
+# Create the main window
+root = tk.Tk()
+root.title("Folder Selection GUI")
+
+# Variables
+selected_directory = tk.StringVar()
+folder_vars = {}
+
+# Create and configure frames
+frame = tk.Frame(root)
+frame.pack()
+
+# Labels and Buttons
+select_directory_label = tk.Label(root, text="Select a Parent Directory:")
+select_directory_label.pack()
+select_directory_button = tk.Button(root, text="Browse", command=browse_directory)
+select_directory_button.pack()
+get_folders_button = tk.Button(root, text="Get Selected Folders", command=get_selected_folders)
+get_folders_button.pack()
+
+selected_directory_label = tk.Label(root, textvariable=selected_directory)
+selected_directory_label.pack()
+
+# Start the Tkinter main loop
+root.mainloop()
